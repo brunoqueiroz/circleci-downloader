@@ -25,12 +25,20 @@ request(options, function(error, response, body) {
 
       var file = fs.createWriteStream(__dirname + '/' + download_file + ".jar");
 
-      var request = https.get(fileToDownload.url + '?circle-token=' + process.env.CIRCLECI_TOKEN, function(response){
-          response.pipe(file); 
-          file.on('finish', function() {
-            file.close();
+
+      out = fs.createWriteStream(__dirname + '/' + download_file + ".jar");
+      https.get(fileToDownload.url + '?circle-token=' + process.env.CIRCLECI_TOKEN).pipe(out)
+      out.once('finish',function() {
+            //file.close();
             console.log('File ' + download_file + ' downloaded and saved at ' + __dirname);
-          });
-        });
+      });); // always works
+
+      // var request = https.get(fileToDownload.url + '?circle-token=' + process.env.CIRCLECI_TOKEN, function(response){
+      //     response.pipe(file); 
+      //     file.on('finish', function() {
+      //       file.close();
+      //       console.log('File ' + download_file + ' downloaded and saved at ' + __dirname);
+      //     });
+      //   });
   }
 });
