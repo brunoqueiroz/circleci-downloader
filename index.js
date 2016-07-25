@@ -14,6 +14,8 @@ var options = {
   json: true
 }
 
+console.log(__dirname);
+
 request(options, function(error, response, body) {
   if (!error && response.statusCode == 200) {
       var res = response.body;
@@ -21,13 +23,13 @@ request(options, function(error, response, body) {
         return arg.url.indexOf(download_file) !== -1
       });
 
-      var file = fs.createWriteStream(configs.pathToSaveFiles + download_file + ".jar");
+      var file = fs.createWriteStream(__dirname + '/' + download_file + ".jar");
 
       var request = https.get(fileToDownload.url + '?circle-token=' + process.env.CIRCLECI_TOKEN, function(response){
           response.pipe(file); 
           file.on('finish', function() {
             file.close();
-            console.log('File ' + download_file + ' downloaded and saved at ' + configs.pathToSaveFiles);
+            console.log('File ' + download_file + ' downloaded and saved at ' + __dirname);
           });
         });
   }
