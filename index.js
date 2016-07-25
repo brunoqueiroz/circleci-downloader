@@ -14,8 +14,6 @@ var options = {
   json: true
 }
 
-console.log(__dirname);
-
 request(options, function(error, response, body) {
   if (!error && response.statusCode == 200) {
       var res = response.body;
